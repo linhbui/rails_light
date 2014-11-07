@@ -12,14 +12,8 @@ module Phase5
     def initialize(req, route_params = {})
       @params = {}
       @params.merge!(route_params)
-      
-      if req.body
-        @params.merge!(parse_www_encoded_form(req.body))
-      end
-      
-      if req.query_string
-        @params.merge!(parse_www_encoded_form(req.query_string))
-      end
+      @params.merge!(parse_www_encoded_form(req.body)) if req.body
+      @params.merge!(parse_www_encoded_form(req.query_string)) if req.query_string
     end
 
     def [](key)
@@ -44,14 +38,14 @@ module Phase5
       # At each of the level, create a deaper empty hash, then set the value
       # to the final key
       key_value_array.each do |full_key, value|
-        level = params
+        current_level = params
         key_arr = parse_key(full_key)
         key_arr.each_with_index do |key, idx|
           if (idx + 1) == key_arr.count
-            level[key] = value
+            current_level[key] = value
           else
-            level[key] ||= {}
-            level = level[key]
+            current_level[key] ||= {}
+            current_level = current_level[key]
           end
         end
       end

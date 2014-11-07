@@ -4,7 +4,7 @@ require 'webrick'
 module Phase4
   class Session
     # find the cookie for this app
-    # deserialize the cookie into a hash
+    # deserialize the cookie into data hash
     def initialize(req)
       cookie = req.cookies.find { |cookie| cookie.name == "_rails_lite_app" }
       @data = cookie.nil? ? {} : JSON.parse(cookie.value)

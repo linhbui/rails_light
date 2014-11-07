@@ -11,7 +11,7 @@ module Phase3
       # Read the actual file  
       erb_code = File.read(file)
       # Render the template
-      # Binding is used to capture the controller's instance variable
+      # Binding is used to capture the controller's instance variables
       render_content(ERB.new(erb_code).result(binding), "text/html")  
     end
   end
